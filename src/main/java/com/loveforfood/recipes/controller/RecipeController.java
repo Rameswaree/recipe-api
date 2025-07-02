@@ -3,12 +3,12 @@ package com.loveforfood.recipes.controller;
 import com.loveforfood.recipes.dto.RecipeRequest;
 import com.loveforfood.recipes.dto.RecipeResponse;
 import com.loveforfood.recipes.service.RecipeService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
@@ -18,46 +18,43 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     @PostMapping
-    public RecipeResponse addRecipe(@RequestBody RecipeRequest recipeRequest) {
-        // This method would typically accept a request body to create a new recipe.
-        // For now, it returns a dummy response.
-        return recipeService.addRecipe(recipeRequest); // Replace with actual implementation
+    @ResponseStatus(HttpStatus.CREATED)
+    public RecipeResponse addRecipe(@Valid @RequestBody RecipeRequest recipeRequest) {
+        return recipeService.addRecipe(recipeRequest);
     }
 
     @PutMapping
-    public RecipeResponse updateRecipe(@RequestParam Long id, @RequestBody RecipeRequest recipeRequest) {
-        // This method would typically accept a request body to update an existing recipe.
-        // For now, it returns a dummy response.
-        return recipeService.updateRecipe(id, recipeRequest); // Replace with actual implementation
+    @ResponseStatus(HttpStatus.OK)
+    public RecipeResponse updateRecipe(@RequestParam("id") Long recipeId, @Valid @RequestBody RecipeRequest recipeRequest) {
+        return recipeService.updateRecipe(recipeId, recipeRequest);
     }
 
     @DeleteMapping
-    public void deleteRecipe(long recipeId) {
-        // This method would typically accept a recipe ID to delete a recipe.
-        // For now, it does nothing.
-        // Replace with actual implementation
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteRecipe(@RequestParam("id") Long recipeId) {
         recipeService.deleteRecipe(recipeId);
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<RecipeResponse> getAllRecipes() {
-        // This method would typically accept a recipe ID to fetch a specific recipe.
-        // For now, it returns a dummy response.
-        return recipeService.getAllRecipes(); // Replace with actual implementation
+        return recipeService.getAllRecipes();
     }
 
-    @GetMapping
-    public RecipeResponse getRecipe(@RequestParam Optional<Long> recipeId) {
-        // This method would typically accept a recipe ID to fetch a specific recipe.
-        // For now, it returns a dummy response.
-        return recipeId.isPresent() ? recipeService.getRecipeById(recipeId.get()) : null; // Replace with actual implementation
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public RecipeResponse getRecipe(@PathVariable("id") Long recipeId) {
+        return recipeService.getRecipeById(recipeId);
     }
 
 
     @GetMapping("/search")
-    public List<RecipeResponse> searchRecipes(@RequestParam Optional<String> query) {
-        // This method would typically accept a search query to find recipes.
-        // For now, it returns a dummy response.
-        return new ArrayList<>(); // Replace with actual implementation
+    @ResponseStatus(HttpStatus.OK)
+    public List<RecipeResponse> searchRecipes(@RequestParam(required = false) Boolean vegetarian,
+                                              @RequestParam(required = false) Integer servings,
+                                              @RequestParam(required = false) String include,
+                                              @RequestParam(required = false) String exclude,
+                                              @RequestParam(required = false) String instructions) {
+        return recipeService.search(vegetarian, servings, include, exclude, instructions);
     }
 }
