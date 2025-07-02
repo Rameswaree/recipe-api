@@ -2,6 +2,7 @@ package com.loveforfood.recipes.controller;
 
 import com.loveforfood.recipes.dto.RecipeRequest;
 import com.loveforfood.recipes.dto.RecipeResponse;
+import com.loveforfood.recipes.dto.RecipeUpdateRequest;
 import com.loveforfood.recipes.service.RecipeService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -25,8 +26,8 @@ public class RecipeController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public RecipeResponse updateRecipe(@RequestParam("id") Long recipeId, @Valid @RequestBody RecipeRequest recipeRequest) {
-        return recipeService.updateRecipe(recipeId, recipeRequest);
+    public RecipeResponse updateRecipe(@RequestParam("id") Long recipeId, @Valid @RequestBody RecipeUpdateRequest recipeUpdateRequest) {
+        return recipeService.updateRecipe(recipeId, recipeUpdateRequest);
     }
 
     @DeleteMapping
