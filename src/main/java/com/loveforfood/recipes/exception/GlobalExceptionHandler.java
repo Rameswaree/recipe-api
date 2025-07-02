@@ -16,4 +16,13 @@ public class GlobalExceptionHandler {
                 .message(ex.getMessage())
                 .build();
     }
+
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public CustomExceptionError handleIllegalArgumentException(IllegalArgumentException ex) {
+        return CustomExceptionError.builder()
+                .status(HttpStatus.BAD_REQUEST)
+                .message(ex.getMessage())
+                .build();
+    }
 }
