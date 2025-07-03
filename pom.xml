@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.loveforfood</groupId>
 	<artifactId>recipe-api</artifactId>
-	<version>0.1.2-SNAPSHOT</version>
+	<version>0.1.3-SNAPSHOT</version>
 	<name>recipe-api</name>
 	<description>Recipe Application</description>
 	<properties>
