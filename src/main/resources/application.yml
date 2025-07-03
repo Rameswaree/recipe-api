@@ -3,3 +3,24 @@ server.port: 9999
 spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
+  application:
+    name: recipe-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/recipes
+    username: postgres
+    password: admin
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto:create
+    show-sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
