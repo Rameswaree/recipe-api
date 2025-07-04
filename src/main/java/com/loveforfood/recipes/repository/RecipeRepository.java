@@ -10,13 +10,13 @@ import java.util.List;
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe,Long> {
     @Query("""
-            SELECT DISTINCT r FROM Recipe r
-            JOIN r.ingredients i
-            WHERE (:vegetarian IS NULL OR r.vegetarian = :vegetarian)
-              AND (:servings IS NULL OR r.servings = :servings)
-              AND (:includeIngredient IS NULL OR LOWER(i.name) = LOWER(:includeIngredient))
-              AND (:excludeIngredient IS NULL OR LOWER(i.name) != LOWER(:excludeIngredient))
-              AND (:instructionText IS NULL OR LOWER(r.instructions) LIKE LOWER(CONCAT('%', :instructionText, '%')))
-            """)
+        SELECT DISTINCT r FROM Recipe r
+        JOIN r.ingredients i
+        WHERE (:vegetarian IS NULL OR r.vegetarian = :vegetarian)
+          AND (:servings IS NULL OR r.servings = :servings)
+          AND (:include IS NULL OR LOWER(i.name) = LOWER(:include))
+          AND (:exclude IS NULL OR LOWER(i.name) != LOWER(:exclude))
+          AND (:instructions IS NULL OR LOWER(r.instructions) LIKE LOWER(CONCAT('%', :instructions, '%')))
+    """)
     List<Recipe> search(Boolean vegetarian, Integer servings, String include, String exclude, String instructions);
 }
