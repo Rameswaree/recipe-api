@@ -1,0 +1,211 @@
+{
+	"info": {
+		"_postman_id": "19825950-357c-49bf-b21c-9a4bd68680fd",
+		"name": "Recipe API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19438758"
+	},
+	"item": [
+		{
+			"name": "Add Recipe",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Arabiatta Pasta\",\r\n    \"vegetarian\" : true,\r\n    \"servings\" : 4,\r\n    \"ingredients\": [\r\n        {\r\n            \"name\" : \"Pasta\"\r\n        },\r\n        {\r\n            \"name\" : \"Tomato sauce\"\r\n        },\r\n        {\r\n            \"name\" : \"Basil\"\r\n        }\r\n    ],\r\n  \"instructions\": \"Boil pasta. Add sauce. Simmer for 10 minutes.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{recipe_url}}",
+					"host": [
+						"{{recipe_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Recipe",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Arabiatta Pasta\",\r\n    \"vegetarian\" : true,\r\n    \"servings\" : 2,\r\n    \"ingredients\": [\r\n        {\r\n            \"id\" : 1,\r\n            \"name\" : \"Penne Pasta\"\r\n        },\r\n        {\r\n            \"id\" : 2,\r\n            \"name\" : \"Tomato sauce\"\r\n        },\r\n        {\r\n            \"id\" : 3,\r\n            \"name\" : \"Basil\"\r\n        }\r\n    ],\r\n  \"instructions\": \"Boil pasta. Add sauce. Simmer for 10 minutes.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{recipe_url}}?id={{recipe_id}}",
+					"host": [
+						"{{recipe_url}}"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{recipe_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Recipe List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{recipe_url}}",
+					"host": [
+						"{{recipe_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Recipe",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{recipe_url}}?id={{recipe_id}}",
+					"host": [
+						"{{recipe_url}}"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{recipe_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Recipe By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{recipe_url}}/{{recipe_id}}",
+					"host": [
+						"{{recipe_url}}"
+					],
+					"path": [
+						"{{recipe_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Recipe",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{recipe_url}}/search?vegetarian={{vegetarian}}&servings={{servings}}&include={{include}}&exclude={{exclude}}&instructions={{instructions}}",
+					"host": [
+						"{{recipe_url}}"
+					],
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "vegetarian",
+							"value": "{{vegetarian}}"
+						},
+						{
+							"key": "servings",
+							"value": "{{servings}}"
+						},
+						{
+							"key": "include",
+							"value": "{{include}}"
+						},
+						{
+							"key": "exclude",
+							"value": "{{exclude}}"
+						},
+						{
+							"key": "instructions",
+							"value": "{{instructions}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "recipe_url",
+			"value": "http://localhost:9999/api/recipes",
+			"type": "string"
+		},
+		{
+			"key": "recipe_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "vegetarian",
+			"value": "false",
+			"type": "string"
+		},
+		{
+			"key": "servings",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "include",
+			"value": "Onion",
+			"type": "string"
+		},
+		{
+			"key": "exclude",
+			"value": "Tomato",
+			"type": "string"
+		},
+		{
+			"key": "instructions",
+			"value": "Boil",
+			"type": "string"
+		}
+	]
+}
