@@ -17,6 +17,15 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
+    @ExceptionHandler(value = RecipeAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public CustomExceptionError handleRecipeAlreadyExistsException(RecipeAlreadyExistsException ex) {
+        return CustomExceptionError.builder()
+                .status(HttpStatus.NOT_FOUND)
+                .message(ex.getMessage())
+                .build();
+    }
+
     @ExceptionHandler(value = DuplicateIngredientException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public CustomExceptionError handleDuplicateIngredientException(DuplicateIngredientException ex) {
