@@ -6,12 +6,15 @@ import com.loveforfood.recipes.dto.RecipeResponse;
 import com.loveforfood.recipes.dto.RecipeUpdateRequest;
 import com.loveforfood.recipes.entity.Ingredient;
 import com.loveforfood.recipes.entity.Recipe;
+import com.loveforfood.recipes.exception.DuplicateIngredientException;
 import com.loveforfood.recipes.exception.RecipeNotFoundException;
 import com.loveforfood.recipes.repository.RecipeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -45,11 +48,19 @@ public class RecipeService {
         recipe.setVegetarian(recipeRequest.vegetarian());
         recipe.setServings(recipeRequest.servings());
 
+        Set<String> savedRecipes = new HashSet<>();
         List<Ingredient> ingredientList = recipeRequest.ingredients()
                 .stream()
                 .map(ingredientRequest -> {
+
+                    String name = ingredientRequest.name().toLowerCase();
+                    if (!savedRecipes.add(name)) {
+                        throw new DuplicateIngredientException("Duplicate ingredient name: " + ingredientRequest.name());
+                    }
+
                     Ingredient newIngredient = new Ingredient();
                     newIngredient.setName(ingredientRequest.name());
+                    newIngredient.setRecipe(recipe);
                     return newIngredient;
                 }).toList();
         recipe.setIngredients(ingredientList);
