@@ -18,10 +18,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = RecipeAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.CONFLICT)
     public CustomExceptionError handleRecipeAlreadyExistsException(RecipeAlreadyExistsException ex) {
         return CustomExceptionError.builder()
-                .status(HttpStatus.NOT_FOUND)
+                .status(HttpStatus.CONFLICT)
                 .message(ex.getMessage())
                 .build();
     }
