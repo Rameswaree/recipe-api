@@ -96,25 +96,51 @@ public class RecipeService {
             recipe.setServings(recipeUpdateRequest.servings().get());
         }
         if(recipeUpdateRequest.ingredients().isPresent()) {
-            List<Ingredient> updatedIngredients = recipeUpdateRequest.ingredients().get()
-                    .stream()
-                    .map(ingredientRequest -> {
-                        Ingredient newIngredient = new Ingredient();
-                        newIngredient.setName(ingredientRequest.name());
-                        return newIngredient;
-                    }).toList();
-            recipe.setIngredients(updatedIngredients);
+            List<IngredientRequest> recipeIngredientRequest = recipeUpdateRequest.ingredients().get();
+
+            updateIngredients(recipe, recipeIngredientRequest);
         }
         if(recipeUpdateRequest.instructions().isPresent()) {
             recipe.setInstructions(recipeUpdateRequest.instructions().get());
         }
     }
 
-    private RecipeResponse createRecipeResponse(Recipe recipe) {
-        List<IngredientResponse> ingredients = recipe.getIngredients().stream()
-                .map(ingredient -> new IngredientResponse(ingredient.getName()))
-                .toList();
-        return new RecipeResponse(recipe.getId(), recipe.getName(), recipe.isVegetarian(), recipe.getServings(), ingredients, recipe.getInstructions());
+    private void updateIngredients(Recipe recipe, List<IngredientRequest> recipeIngredientRequest) {
+        Map<Long, Ingredient> existingById = recipe.getIngredients().stream()
+                .filter(i -> i.getId() != null)
+                .collect(Collectors.toMap(Ingredient::getId, i -> i));
+
+        Set<String> existingNames = recipe.getIngredients().stream()
+                .map(Ingredient::getName)
+                .map(String::toLowerCase)
+                .collect(Collectors.toSet());
+
+        for(IngredientRequest ingredientRequest : recipeIngredientRequest) {
+
+            String ingredientName = ingredientRequest.name().toLowerCase();
+
+            if (ingredientRequest.id() != null && existingById.containsKey(ingredientRequest.id())) {
+                Ingredient ingredient = existingById.get(ingredientRequest.id());
+
+                if (existingNames.contains(ingredientName) && !ingredient.getName().equalsIgnoreCase(ingredientName)) {
+                    throw new DuplicateIngredientException("Ingredient name must be unique: " + ingredientName);
+                }
+
+                existingNames.remove(ingredient.getName().toLowerCase());
+                ingredient.setName(ingredientRequest.name());
+            } else {
+
+                if (existingNames.contains(ingredientName)) {
+                    throw new DuplicateIngredientException("Ingredient name must be unique: " + ingredientName);
+                }
+
+                Ingredient newIngredient = new Ingredient();
+                newIngredient.setName(ingredientRequest.name());
+                newIngredient.setRecipe(recipe);
+                recipe.getIngredients().add(newIngredient);
+            }
+            existingNames.add(ingredientName);
+        }
     }
 
     public List<RecipeResponse> search(Boolean vegetarian, Integer servings, String include, String exclude, String instructions) {
@@ -122,5 +148,12 @@ public class RecipeService {
                 .stream()
                 .map(this::createRecipeResponse)
                 .toList();
+    }
+
+    private RecipeResponse createRecipeResponse(Recipe recipe) {
+        List<IngredientResponse> ingredients = recipe.getIngredients().stream()
+                .map(ingredient -> new IngredientResponse(ingredient.getId(), ingredient.getName()))
+                .toList();
+        return new RecipeResponse(recipe.getId(), recipe.getName(), recipe.isVegetarian(), recipe.getServings(), ingredients, recipe.getInstructions());
     }
 }
