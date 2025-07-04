@@ -11,6 +11,10 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Unit tests for the IngredientRequest DTO.
+ * Validates that the constraints on the IngredientRequest fields are enforced correctly.
+ */
 public class IngredientRequestTest {
 
     private static Validator validator;

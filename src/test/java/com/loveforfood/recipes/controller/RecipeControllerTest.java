@@ -15,6 +15,10 @@ import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit tests for the RecipeController class.
+ * This class tests the endpoints for adding, updating, deleting, retrieving, and searching recipes.
+ */
 @ExtendWith(MockitoExtension.class)
 public class RecipeControllerTest {
 

@@ -13,6 +13,10 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Unit tests for {@link IngredientRequest} validation.
+ * Tests various scenarios to ensure that the validation constraints are correctly applied.
+ */
 public class RecipeUpdateRequestTest {
 
     private static Validator validator;

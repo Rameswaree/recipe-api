@@ -22,6 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit tests for the RecipeService class.
+ * Tests various scenarios for adding, updating, deleting, and retrieving recipes.
+ */
 @ExtendWith(MockitoExtension.class)
 public class RecipeServiceTest {
 
