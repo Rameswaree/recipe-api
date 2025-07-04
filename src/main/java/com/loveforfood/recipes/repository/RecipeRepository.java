@@ -15,8 +15,14 @@ public interface RecipeRepository extends JpaRepository<Recipe,Long> {
         WHERE (:vegetarian IS NULL OR r.vegetarian = :vegetarian)
           AND (:servings IS NULL OR r.servings = :servings)
           AND (:include IS NULL OR LOWER(i.name) = LOWER(:include))
-          AND (:exclude IS NULL OR LOWER(i.name) != LOWER(:exclude))
+          AND (:exclude IS NULL OR r.id NOT IN (
+                                   SELECT r2.id FROM Recipe r2
+                                   JOIN r2.ingredients i2
+                                   WHERE LOWER(i2.name) = LOWER(:exclude)
+                             ))
           AND (:instructions IS NULL OR LOWER(r.instructions) LIKE LOWER(CONCAT('%', :instructions, '%')))
     """)
     List<Recipe> search(Boolean vegetarian, Integer servings, String include, String exclude, String instructions);
+
+    boolean existsByNameIgnoreCase(String name);
 }
