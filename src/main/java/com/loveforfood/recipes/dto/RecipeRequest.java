@@ -7,6 +7,15 @@ import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 
+/**
+ * Represents a request to create or update a recipe.
+ *
+ * @param name        the name of the recipe
+ * @param vegetarian  indicates if the recipe is vegetarian
+ * @param servings    the number of servings the recipe yields
+ * @param ingredients a list of ingredients required for the recipe
+ * @param instructions the cooking instructions for the recipe
+ */
 public record RecipeRequest(
         @NotBlank(message = "Recipe name must not be an empty string")
         String name,

@@ -16,6 +16,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Service class for managing recipes.
+ * Provides methods to add, update, delete, and retrieve recipes.
+ */
 @Service
 @AllArgsConstructor
 public class RecipeService {

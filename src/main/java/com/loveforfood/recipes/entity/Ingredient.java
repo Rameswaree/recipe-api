@@ -3,6 +3,10 @@ package com.loveforfood.recipes.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * Represents an ingredient in a recipe.
+ * Each ingredient is associated with a specific recipe.
+ */
 @Entity
 @Builder
 @Getter

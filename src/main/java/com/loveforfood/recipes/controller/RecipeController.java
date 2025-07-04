@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller for managing recipes.
+ * Provides endpoints to add, update, delete, retrieve and search recipes.
+ */
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/recipes")

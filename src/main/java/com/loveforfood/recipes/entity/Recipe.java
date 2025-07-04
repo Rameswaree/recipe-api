@@ -7,6 +7,11 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a recipe in the application.
+ * Each recipe can have multiple ingredients and contains details such as name, vegetarian status,
+ * number of servings, and cooking instructions.
+ */
 @Entity
 @Getter
 @Setter
