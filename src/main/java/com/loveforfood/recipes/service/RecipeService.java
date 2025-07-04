@@ -4,6 +4,7 @@ import com.loveforfood.recipes.dto.*;
 import com.loveforfood.recipes.entity.Ingredient;
 import com.loveforfood.recipes.entity.Recipe;
 import com.loveforfood.recipes.exception.DuplicateIngredientException;
+import com.loveforfood.recipes.exception.RecipeAlreadyExistsException;
 import com.loveforfood.recipes.exception.RecipeNotFoundException;
 import com.loveforfood.recipes.repository.RecipeRepository;
 import lombok.AllArgsConstructor;
@@ -42,6 +43,10 @@ public class RecipeService {
     }
 
     public RecipeResponse addRecipe(RecipeRequest recipeRequest) {
+        if (recipeRepository.existsByNameIgnoreCase(recipeRequest.name())) {
+            throw new RecipeAlreadyExistsException("A recipe with this name already exists: " + recipeRequest.name());
+        }
+
         Recipe recipe = new Recipe();
         recipe.setName(recipeRequest.name());
         recipe.setVegetarian(recipeRequest.vegetarian());
@@ -85,6 +90,12 @@ public class RecipeService {
 
     private void updateRecipeFields(Recipe recipe, RecipeUpdateRequest recipeUpdateRequest) {
         if(recipeUpdateRequest.name().isPresent()) {
+            String newName = recipeUpdateRequest.name().get();
+            if (!newName.equalsIgnoreCase(recipe.getName()) &&
+                    recipeRepository.existsByNameIgnoreCase(newName)) {
+                throw new RecipeAlreadyExistsException("Another recipe already exists with name: " + newName);
+            }
+
             recipe.setName(recipeUpdateRequest.name().get());
         }
         if(recipeUpdateRequest.vegetarian().isPresent()) {
