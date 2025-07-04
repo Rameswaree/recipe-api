@@ -17,6 +17,15 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
+    @ExceptionHandler(value = DuplicateIngredientException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public CustomExceptionError handleDuplicateIngredientException(DuplicateIngredientException ex) {
+        return CustomExceptionError.builder()
+                .status(HttpStatus.CONFLICT)
+                .message(ex.getMessage())
+                .build();
+    }
+
     @ExceptionHandler(value = IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public CustomExceptionError handleIllegalArgumentException(IllegalArgumentException ex) {
