@@ -1,9 +1,6 @@
 package com.loveforfood.recipes.service;
 
-import com.loveforfood.recipes.dto.IngredientResponse;
-import com.loveforfood.recipes.dto.RecipeRequest;
-import com.loveforfood.recipes.dto.RecipeResponse;
-import com.loveforfood.recipes.dto.RecipeUpdateRequest;
+import com.loveforfood.recipes.dto.*;
 import com.loveforfood.recipes.entity.Ingredient;
 import com.loveforfood.recipes.entity.Recipe;
 import com.loveforfood.recipes.exception.DuplicateIngredientException;
@@ -14,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -72,7 +71,6 @@ public class RecipeService {
     }
 
     public RecipeResponse updateRecipe(Long id, RecipeUpdateRequest recipeUpdateRequest) {
-        // Update the existing recipe with new values from recipeRequest
         Recipe recipe = recipeRepository.findById(id)
                                         .orElseThrow(() -> new RecipeNotFoundException("Recipe not found with id: " + id));
         if(recipeUpdateRequest == null) {
