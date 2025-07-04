@@ -3,7 +3,6 @@ package com.loveforfood.recipes.dto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import com.loveforfood.recipes.entity.Ingredient;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
@@ -16,6 +15,6 @@ public record RecipeRequest(
         int servings,
         @Valid
         @NotEmpty(message = "Ingredients list must not be empty")
-        List<Ingredient> ingredients,
+        List<IngredientRequest> ingredients,
         @NotBlank(message = "Instructions must not be blank")
         String instructions){}

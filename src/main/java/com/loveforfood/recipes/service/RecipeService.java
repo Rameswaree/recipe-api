@@ -1,5 +1,6 @@
 package com.loveforfood.recipes.service;
 
+import com.loveforfood.recipes.dto.IngredientResponse;
 import com.loveforfood.recipes.dto.RecipeRequest;
 import com.loveforfood.recipes.dto.RecipeResponse;
 import com.loveforfood.recipes.dto.RecipeUpdateRequest;
@@ -46,9 +47,9 @@ public class RecipeService {
 
         List<Ingredient> ingredientList = recipeRequest.ingredients()
                 .stream()
-                .map(ingredient -> {
+                .map(ingredientRequest -> {
                     Ingredient newIngredient = new Ingredient();
-                    newIngredient.setName(ingredient.getName());
+                    newIngredient.setName(ingredientRequest.name());
                     return newIngredient;
                 }).toList();
         recipe.setIngredients(ingredientList);
@@ -86,9 +87,9 @@ public class RecipeService {
         if(recipeUpdateRequest.ingredients().isPresent()) {
             List<Ingredient> updatedIngredients = recipeUpdateRequest.ingredients().get()
                     .stream()
-                    .map(ingredient -> {
+                    .map(ingredientRequest -> {
                         Ingredient newIngredient = new Ingredient();
-                        newIngredient.setName(ingredient.getName());
+                        newIngredient.setName(ingredientRequest.name());
                         return newIngredient;
                     }).toList();
             recipe.setIngredients(updatedIngredients);
@@ -99,7 +100,10 @@ public class RecipeService {
     }
 
     private RecipeResponse createRecipeResponse(Recipe recipe) {
-        return new RecipeResponse(recipe.getId(), recipe.getName(), recipe.isVegetarian(), recipe.getServings(), recipe.getIngredients(), recipe.getInstructions());
+        List<IngredientResponse> ingredients = recipe.getIngredients().stream()
+                .map(ingredient -> new IngredientResponse(ingredient.getName()))
+                .toList();
+        return new RecipeResponse(recipe.getId(), recipe.getName(), recipe.isVegetarian(), recipe.getServings(), ingredients, recipe.getInstructions());
     }
 
     public List<RecipeResponse> search(Boolean vegetarian, Integer servings, String include, String exclude, String instructions) {
